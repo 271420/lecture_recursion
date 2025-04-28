@@ -41,12 +41,40 @@ def binary_search(seq, number):
             return middle
     return None
 
+def recursive_binary_search(seq, number, index_left, index_right):
+    """
+
+    :param seq: (list): list of numbers
+    :param number: (int): number to match within sequence
+    :param index_left: (int): index on the left side of the list
+    :param index_right: (int): index on the right side of the list
+    :return: (int, None): index of match if found, None otherwise
+    """
+    middle = (index_left + index_right) // 2
+
+    if index_left > index_right:
+        return None
+    if int(seq[middle]) == number:
+        return middle
+    elif int(seq[middle])< number:
+        recursive_binary_search(seq,number, middle + 1, index_right)
+    else:
+        recursive_binary_search(seq, number, index_left, middle - 1)
 
 def main(file_name, number):
     sequence = read_data(file_name=file_name, key="ordered_numbers")
-
+    index = binary_search(sequence, number=number)
+    print("Iterative binary search:")
+    if index is not None:
+        print(f"Number {number} was found at {index}")
+    else:
+        print(f"Number {number}not found")
     # iterative binary search
-    binary_search(sequence, number=number)
+    index = recursive_binary_search(sequence, number,0, len(sequence)-1)
+    if index is not None:
+        print(f"Number {number} was found at {index}")
+    else:
+        print(f"Number {number} was not found")
 
 
 if __name__ == "__main__":
